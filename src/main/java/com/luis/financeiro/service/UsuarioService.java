@@ -15,15 +15,19 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     public Usuario cadastrar(RegisterRequest request) {
+
+        // Verifica se email já existe
         if (usuarioRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email já cadastrado!");
         }
 
+        // Cria novo usuário
         Usuario usuario = new Usuario();
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
         usuario.setSenha(passwordEncoder.encode(request.getSenha()));
 
+        // Salva no banco
         return usuarioRepository.save(usuario);
     }
 
